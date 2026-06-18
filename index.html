@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Портфолио Данияла — будущего разработчика из Казахстана. Обо мне, мой путь в IT, проекты и GitHub.">
+  <title>Даниял | Портфолио Middle Web</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Particles Background -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Header / Navigation -->
+  <header class="header" id="header">
+    <div class="container nav-container">
+      <a href="#about" class="logo" id="nav-logo">
+        <span class="logo-bracket">&lt;</span>
+        <span class="logo-name">Daniyal</span>
+        <span class="logo-bracket">/&gt;</span>
+      </a>
+      <nav aria-label="Основная навигация">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="#about" class="nav-link">О себе</a></li>
+          <li><a href="#goal" class="nav-link">Цель</a></li>
+          <li><a href="#story" class="nav-link">История</a></li>
+          <li><a href="#mentor" class="nav-link">Ментор</a></li>
+          <li><a href="#progress" class="nav-link">Прогресс</a></li>
+          <li><a href="#hobbies" class="nav-link">Хобби</a></li>
+          <li><a href="#projects" class="nav-link">Работы</a></li>
+          <li><a href="#github" class="nav-link">GitHub</a></li>
+        </ul>
+      </nav>
+      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 1. О себе — Hero Section -->
+    <section class="section hero" id="about">
+      <div class="container hero-container">
+        <div class="hero-badge reveal">
+          <i class="fa-solid fa-star"></i> CapEducation · Middle Web Track
+        </div>
+        <div class="profile-photo reveal">
+          <div class="photo-ring"></div>
+          <img src="https://ui-avatars.com/api/?name=D&size=300&background=0d1b2e&color=64ffda&font-size=0.5&bold=true&rounded=true" alt="Фото Данияла" width="200" height="200">
+          <div class="photo-status"><i class="fa-solid fa-circle"></i> Открыт для проектов</div>
+        </div>
+        <h1 class="hero-title reveal">Привет, я <span class="gradient-text">Даниял</span> 👋</h1>
+        <h2 class="hero-subtitle reveal"><span class="typing-text"></span></h2>
+        <p class="hero-desc reveal">Учусь в <strong>10 классе</strong>, увлекаюсь программированием, математикой и современными технологиями. Создаю сайты с нуля и верю, что код меняет мир.</p>
+
+        <!-- Факты из data.json через Fetch -->
+        <div class="facts-grid reveal" id="facts-container">
+          <div class="facts-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка...</div>
+        </div>
+
+        <div class="hero-cta reveal">
+          <a href="#projects" class="btn btn-primary" id="btn-projects">
+            <i class="fa-solid fa-rocket"></i> Мои работы
+          </a>
+          <a href="#github" class="btn btn-outline" id="btn-github">
+            <i class="fa-brands fa-github"></i> GitHub
+          </a>
+        </div>
+      </div>
+      <a href="#goal" class="scroll-down" aria-label="Прокрутить вниз">
+        <i class="fa-solid fa-chevron-down"></i>
+      </a>
+    </section>
+
+    <!-- 2. Моя цель -->
+    <section class="section" id="goal">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><i class="fa-solid fa-bullseye"></i> Блок 2</span>
+          <h2 class="section-title">Моя <span class="gradient-text">цель</span></h2>
+          <p class="section-subtitle">Зачем я в программировании и к чему иду</p>
+        </div>
+        <div class="goal-grid reveal">
+          <div class="goal-main glass-card">
+            <div class="goal-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <h3>Поступление в Astana IT University</h3>
+            <p>Хочу получить высшее образование в лучшем IT-университете Казахстана на бюджетной основе и стать профессиональным разработчиком.</p>
+          </div>
+          <div class="goal-targets">
+            <div class="target-item glass-card reveal">
+              <div class="target-num">130+</div>
+              <div class="target-label">Баллов на ЕНТ</div>
+              <div class="target-sub">Target: 125 • Сдаю 2026</div>
+            </div>
+            <div class="target-item glass-card reveal">
+              <div class="target-num">9.0</div>
+              <div class="target-label">IELTS Academic</div>
+              <div class="target-sub">Академический уровень</div>
+            </div>
+            <div class="target-item glass-card reveal">
+              <div class="target-num">🏆</div>
+              <div class="target-label">Олимпиады</div>
+              <div class="target-sub">Республиканский уровень</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Как я пришёл в IT -->
+    <section class="section" id="story">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><i class="fa-solid fa-route"></i> Блок 3</span>
+          <h2 class="section-title">Как я пришёл <span class="gradient-text">в IT</span></h2>
+          <p class="section-subtitle">Моя история: что привело меня в эту сферу</p>
+        </div>
+        <div class="timeline reveal">
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="fa-solid fa-laptop"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-year">~10 лет</span>
+              <h3>Первый ноутбук</h3>
+              <p>Мама купила мне ноутбук. Первым делом я скачал Roblox — но быстро понял, что мне интереснее <em>создавать</em>, чем играть.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="fa-solid fa-gamepad"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-year">Roblox Studio</span>
+              <h3>Первые шаги в разработке</h3>
+              <p>Начал создавать собственные режимы в Roblox Studio. Именно тогда меня захватила идея: «Я могу сам строить виртуальные миры».</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="fa-solid fa-code"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-year">Сейчас</span>
+              <h3>Курс CapEducation</h3>
+              <p>Прошёл весь трек Middle Web: Tilda → Figma → HTML → CSS → JavaScript. Строю настоящие сайты с нуля и не собираюсь останавливаться.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Мой ментор -->
+    <section class="section" id="mentor">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><i class="fa-solid fa-user-graduate"></i> Блок 4</span>
+          <h2 class="section-title">Мой <span class="gradient-text">ментор</span></h2>
+          <p class="section-subtitle">Кто помогает и вдохновляет меня</p>
+        </div>
+        <div class="mentor-card glass-card reveal">
+          <div class="mentor-avatar">
+            <img src="https://ui-avatars.com/api/?name=AB&size=200&background=1a2942&color=64ffda&font-size=0.4&bold=true&rounded=true" alt="Askar Bakeyev" width="120" height="120">
+          </div>
+          <div class="mentor-info">
+            <h3>Askar Bakeyev</h3>
+            <p class="mentor-role"><i class="fa-solid fa-chalkboard-user"></i> Преподаватель курса CapEducation</p>
+            <p class="mentor-desc">Askar — мой главный наставник, который показал мне правильный путь в мире программирования. Благодаря ему я понял, что учиться коду — это не скучно, а безумно интересно.</p>
+            <div class="mentor-lessons">
+              <div class="lesson-tag"><i class="fa-solid fa-check"></i> Семантический HTML</div>
+              <div class="lesson-tag"><i class="fa-solid fa-check"></i> Flexbox & Grid</div>
+              <div class="lesson-tag"><i class="fa-solid fa-check"></i> JavaScript DOM</div>
+              <div class="lesson-tag"><i class="fa-solid fa-check"></i> Чистый код</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Точка А → Точка Б (с Fetch API) -->
+    <section class="section" id="progress">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><i class="fa-solid fa-chart-line"></i> Блок 5</span>
+          <h2 class="section-title">Точка А <span class="gradient-text">→</span> Точка Б</h2>
+          <p class="section-subtitle">Мой прогресс — данные загружаются через Fetch API</p>
+        </div>
+
+        <div class="progress-wrapper">
+          <div class="point-a glass-card reveal" id="point-a-container">
+            <div class="point-header">
+              <div class="point-icon point-icon-a"><i class="fa-solid fa-seedling"></i></div>
+              <h3>Точка А — Начало</h3>
+            </div>
+            <ul class="point-list" id="point-a-list">
+              <li class="loading-item"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка...</li>
+            </ul>
+          </div>
+
+          <div class="progress-arrow reveal">
+            <div class="arrow-line"></div>
+            <i class="fa-solid fa-chevron-right arrow-icon"></i>
+          </div>
+
+          <div class="point-b glass-card reveal" id="point-b-container">
+            <div class="point-header">
+              <div class="point-icon point-icon-b"><i class="fa-solid fa-tree"></i></div>
+              <h3>Точка Б — Сейчас</h3>
+            </div>
+            <ul class="point-list" id="point-b-list">
+              <li class="loading-item"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка...</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Skill Bars из data.json -->
+        <div class="skills-section reveal">
+          <h3 class="skills-title">Мои навыки</h3>
+          <div class="skills-list" id="skills-list">
+            <div class="skill-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка навыков...</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. Хобби и интересы (из data.json) -->
+    <section class="section" id="hobbies">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><i class="fa-solid fa-heart"></i> Блок 6</span>
+          <h2 class="section-title">Хобби и <span class="gradient-text">интересы</span></h2>
+          <p class="section-subtitle">Чем я увлекаюсь вне учёбы</p>
+        </div>
+        <div class="hobbies-container reveal" id="hobbies-container">
+          <div class="hobby-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Мои лучшие работы (из data.json) -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><i class="fa-solid fa-star"></i> Блок 7</span>
+          <h2 class="section-title">Мои лучшие <span class="gradient-text">работы</span></h2>
+          <p class="section-subtitle">Лучшие проекты с курса GetCourse</p>
+        </div>
+        <div class="projects-grid" id="projects-grid">
+          <div class="projects-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка проектов...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. GitHub -->
+    <section class="section" id="github">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-tag"><i class="fa-brands fa-github"></i> Блок 8</span>
+          <h2 class="section-title">Мой <span class="gradient-text">GitHub</span></h2>
+          <p class="section-subtitle">Весь код проекта открыт и залит в репозиторий</p>
+        </div>
+        <div class="github-card glass-card reveal">
+          <div class="github-icon-wrap">
+            <i class="fa-brands fa-github github-big-icon"></i>
+          </div>
+          <div class="github-info">
+            <h3>detrayer15-ship-it</h3>
+            <p>Здесь хранится весь код этого портфолио — чистый <code>index.html</code>, <code>style.css</code> и <code>script.js</code> с осмысленной историей коммитов.</p>
+            <div class="github-stats">
+              <div class="github-stat"><i class="fa-solid fa-code-branch"></i> index.html</div>
+              <div class="github-stat"><i class="fa-solid fa-palette"></i> style.css</div>
+              <div class="github-stat"><i class="fa-brands fa-js"></i> script.js</div>
+              <div class="github-stat"><i class="fa-solid fa-database"></i> data.json</div>
+            </div>
+            <a href="https://github.com/detrayer15-ship-it" class="btn btn-primary" id="github-link" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-github"></i> Открыть репозиторий
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026 <span class="gradient-text">Даниял</span> · Специально для конкурса <strong>CapEducation</strong></p>
+      <p class="footer-sub">Сайт сделан вручную на HTML / CSS / JavaScript · Данные загружены через Fetch API</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scroll-top-btn" aria-label="Наверх" title="Наверх">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/dist/typed.umd.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
