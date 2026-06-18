@@ -112,7 +112,11 @@ window.addEventListener('load', () => {
   }
 });
 
-// ─── HEADER SCROLL EFFECT ────────────────────────────────────
+// ─── SCROLL PROGRESS BAR & HEADER SCROLL EFFECT ──────────────
+const scrollProgress = document.createElement('div');
+scrollProgress.className = 'scroll-progress-bar';
+document.body.appendChild(scrollProgress);
+
 const header = document.getElementById('header');
 function onScroll() {
   header.classList.toggle('scrolled', window.scrollY > 50);
@@ -120,6 +124,12 @@ function onScroll() {
   scrollTopBtn.style.display = window.scrollY > 400 ? 'flex' : 'none';
   // Active nav link
   highlightNav();
+  // Scroll progress width
+  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+  if (totalHeight > 0) {
+    const pct = (window.scrollY / totalHeight) * 100;
+    scrollProgress.style.width = pct + '%';
+  }
 }
 window.addEventListener('scroll', onScroll, { passive: true });
 
