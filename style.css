@@ -42,8 +42,75 @@ a { text-decoration: none; color: inherit; }
 #particles-canvas {
   position: fixed;
   inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Subtle Grid Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: center;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 95%);
+  opacity: 0.8;
+}
+
+/* Ambient Background Glow Aura */
+.bg-glow {
+  position: fixed;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(140px);
+  opacity: 0.07;
+  mix-blend-mode: screen;
+  transition: transform 10s ease-in-out;
+}
+
+.bg-glow-1 {
+  top: -20vh;
+  left: -20vw;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  animation: float-glow-1 25s ease-in-out infinite alternate;
+}
+
+.bg-glow-2 {
+  top: 35vh;
+  right: -25vw;
+  background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+  animation: float-glow-2 30s ease-in-out infinite alternate;
+}
+
+.bg-glow-3 {
+  bottom: -20vh;
+  left: 10vw;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  animation: float-glow-3 28s ease-in-out infinite alternate;
+}
+
+@keyframes float-glow-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(8vw, 6vh) scale(1.1); }
+}
+
+@keyframes float-glow-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-6vw, -8vh) scale(1.15); }
+}
+
+@keyframes float-glow-3 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(5vw, -5vh) scale(1.05); }
 }
 
 /* ===========================
