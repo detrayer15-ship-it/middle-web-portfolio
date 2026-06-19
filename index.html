@@ -61,7 +61,7 @@
   <aside class="arc-nav" id="arc-nav" aria-label="Боковая навигация портфолио">
     <div class="arc-nav__container">
       <!-- SVG для линий и визуальных эффектов -->
-      <svg class="arc-nav__svg" viewBox="0 0 500 500" aria-hidden="true">
+      <svg class="arc-nav__svg" viewBox="0 0 280 280" aria-hidden="true">
         <defs>
           <linearGradient id="arc-glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="var(--primary)" stop-opacity="1" />
@@ -69,7 +69,7 @@
             <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.4" />
           </linearGradient>
           <filter id="arc-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
             <feMerge>
               <feMergeNode in="coloredBlur" />
               <feMergeNode in="SourceGraphic" />
@@ -78,7 +78,7 @@
         </defs>
         <!-- Основная дуга полукруга -->
         <g class="arc-nav__arcs" filter="url(#arc-glow)">
-          <path class="arc-nav__arc arc-nav__arc--main" d="M 250 10 A 240 240 0 0 1 250 490" />
+          <path class="arc-nav__arc arc-nav__arc--main" d="M 140 10 A 130 130 0 0 1 140 270" />
         </g>
         <!-- Линии от центра к элементам -->
         <g class="arc-nav__radials" id="arc-nav-radials"></g>

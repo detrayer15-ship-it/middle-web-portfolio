@@ -146,7 +146,7 @@ let scrollTicking = false;
 function onScroll() {
   header.classList.toggle('scrolled', window.scrollY > 50);
   scrollTopBtn.style.display = window.scrollY > 400 ? 'flex' : 'none';
-  highlightNav();
+  // highlightNav();  // Заменена на Intersection Observer
   const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
   const pct = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
   scrollProgress.style.width = `${Math.min(100, Math.max(0, pct))}%`;
@@ -230,9 +230,9 @@ const arcNavRadials = document.getElementById('arc-nav-radials');
 function drawArcRadials() {
   if (!arcNavRadials) return;
 
-  const centerX = 250;
-  const centerY = 250;
-  const radius = 240;
+  const centerX = 140;
+  const centerY = 140;
+  const radius = 130;
 
   arcNavRadials.innerHTML = '';
   arcNavLinks.forEach(link => {
@@ -345,7 +345,42 @@ function observeReveal() {
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 }
 observeReveal();
+// ─── INTERSECTION OBSERVER — TRACK ACTIVE SECTION ───────────
+// Отслеживает какой раздел находится в поле зрения и обновляет навигацию
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const sectionId = entry.target.id;
+      
+      // Обновляем все ссылки в обеих навигациях
+      navLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${sectionId}`;
+        link.classList.toggle('active', isActive);
+      });
+      
+      arcNavLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${sectionId}`;
+        link.classList.toggle('active', isActive);
+        
+        // Обновляем радиальную линию
+        const angleDeg = link.style.getPropertyValue('--angle').trim();
+        const radial = document.querySelector(`.arc-nav__radials line[data-angle="${angleDeg}"]`);
+        if (radial) {
+          radial.classList.toggle('is-active', isActive);
+          if (isActive) {
+            radial.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
+          }
+        }
+      });
+    }
+  });
+}, { 
+  threshold: 0.3,  // Триггер когда 30% раздела видна
+  rootMargin: '0px 0px -66% 0px'  // Концентрируемся на верхней части экрана
+});
 
+// Наблюдаем за всеми секциями
+sections.forEach(section => sectionObserver.observe(section));
 function restoreAnchorPosition() {
   if (!window.location.hash) return;
 

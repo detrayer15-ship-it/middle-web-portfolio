@@ -640,13 +640,13 @@ body.dark-theme .btn-primary:hover {
    ═══════════════════════════════════════════════════════════════ */
 
 .arc-nav {
-  --arc-size: 520px;
-  --arc-radius: 240px;
-  --core-size: 50px;
-  --core-offset: 12px;
+  --arc-size: 280px;
+  --arc-radius: 140px;
+  --core-size: 40px;
+  --core-offset: 8px;
   
   position: fixed;
-  right: 0;
+  right: -50px;
   top: 50%;
   z-index: 1200;
   
@@ -686,29 +686,29 @@ body.dark-theme .btn-primary:hover {
   fill: none;
   stroke: url(#arc-glow-grad);
   stroke-linecap: round;
-  stroke-width: 2;
-  opacity: 0.8;
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--primary) 50%, transparent));
+  stroke-width: 1.2;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--primary) 40%, transparent));
   animation: arc-flow 8s linear infinite;
 }
 
 .arc-nav__arc--main {
-  stroke-width: 2.5;
-  opacity: 0.9;
+  stroke-width: 1.5;
+  opacity: 0.6;
 }
 
 /* Радиальные линии от центра к элементам */
 .arc-nav__radials line {
   stroke: url(#arc-glow-grad);
-  stroke-width: 1;
-  opacity: 0.3;
-  transition: opacity 0.3s ease, stroke-width 0.3s ease;
+  stroke-width: 0.6;
+  opacity: 0.2;
+  transition: opacity 0.4s ease, stroke-width 0.4s ease;
 }
 
 .arc-nav__radials line.is-active {
-  opacity: 0.8;
-  stroke-width: 2;
-  filter: drop-shadow(0 0 8px var(--route-color, var(--primary)));
+  opacity: 0.7;
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px var(--route-color, var(--primary)));
 }
 
 /* Центральная кнопка шестеренка */
@@ -815,7 +815,7 @@ body.dark-theme .arc-nav__core {
 
 /* Кнопка элемента */
 .arc-nav__button {
-  --button-radius: 28px;
+  --button-radius: 22px;
   
   position: absolute;
   left: 0;
@@ -829,13 +829,13 @@ body.dark-theme .arc-nav__core {
   place-items: center;
   
   background: color-mix(in srgb, var(--route-color) 12%, var(--glass-b));
-  border: 1.2px solid color-mix(in srgb, var(--route-color) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--route-color) 40%, transparent);
   
   color: var(--route-color);
-  font-size: 14px;
+  font-size: 12px;
   
   box-shadow:
-    0 2px 12px rgba(0, 0, 0, 0.1),
+    0 2px 10px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
   
   transform:
@@ -862,20 +862,19 @@ body.dark-theme .arc-nav__button {
   top: 0;
   
   white-space: nowrap;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   
-  color: color-mix(in srgb, var(--text) 70%, transparent);
+  color: color-mix(in srgb, var(--text) 65%, transparent);
   
   transform:
     translate(-50%, -50%)
     rotate(var(--angle))
-    translateX(calc(var(--arc-radius) + 24px))
+    translateX(calc(var(--arc-radius) + 16px))
     rotate(calc(-1 * var(--angle)));
   
-  transition: color 0.3s ease;
+  transition: color 0.4s ease;
 }
 
 /* HOVER state */
@@ -1762,67 +1761,67 @@ body.dark-theme .arc-nav__button {
 
 @media (max-width: 1280px) {
   .arc-nav {
-    --arc-size: 480px;
-    --arc-radius: 220px;
+    --arc-size: 280px;
+    --arc-radius: 140px;
   }
 }
 
 @media (max-width: 1024px) {
   .arc-nav {
-    --arc-size: 400px;
-    --arc-radius: 180px;
-    --core-size: 44px;
+    --arc-size: 250px;
+    --arc-radius: 125px;
+    --core-size: 36px;
   }
 
   .arc-nav__button {
-    --button-radius: 24px;
-    font-size: 13px;
+    --button-radius: 20px;
+    font-size: 11px;
   }
 
   .arc-nav__label {
-    font-size: 10px;
+    font-size: 9px;
     transform:
       translate(-50%, -50%)
       rotate(var(--angle))
-      translateX(calc(var(--arc-radius) + 20px))
+      translateX(calc(var(--arc-radius) + 14px))
       rotate(calc(-1 * var(--angle)));
   }
 }
 
 @media (max-width: 768px) {
   .arc-nav {
-    --arc-size: 360px;
-    --arc-radius: 160px;
-    --core-size: 40px;
-    opacity: 0.85;
+    --arc-size: 220px;
+    --arc-radius: 110px;
+    --core-size: 32px;
+    opacity: 0.9;
   }
 
   .arc-nav__core i {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .arc-nav__button {
-    --button-radius: 22px;
-    font-size: 12px;
+    --button-radius: 18px;
+    font-size: 10px;
   }
 
   .arc-nav__label {
-    font-size: 9px;
+    font-size: 8px;
     letter-spacing: 0;
     transform:
       translate(-50%, -50%)
       rotate(var(--angle))
-      translateX(calc(var(--arc-radius) + 18px))
+      translateX(calc(var(--arc-radius) + 12px))
       rotate(calc(-1 * var(--angle)));
   }
 
   .arc-nav__link:hover .arc-nav__button,
   .arc-nav__link:focus-visible .arc-nav__button {
-    --shift: 12px;
+    --shift: 10px;
     transform:
       translate(-50%, -50%)
       rotate(var(--angle))
-      translateX(calc(var(--arc-radius) - 12px))
+      translateX(calc(var(--arc-radius) - 10px))
       rotate(calc(-1 * var(--angle)))
       scale(1.08);
   }
