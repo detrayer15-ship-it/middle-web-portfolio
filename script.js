@@ -176,11 +176,11 @@ function highlightNav() {
   arcNavLinks.forEach(a => {
     const isActive = a.getAttribute('href') === `#${current}`;
     a.classList.toggle('active', isActive);
-    const index = a.style.getPropertyValue('--i').trim();
-    const tick = document.querySelector(`.arc-nav__ticks line[data-i="${index}"]`);
-    if (tick) {
-      tick.classList.toggle('is-active', isActive);
-      tick.style.setProperty('--route-color', a.style.getPropertyValue('--route-color'));
+    const angleDeg = a.style.getPropertyValue('--angle').trim();
+    const radial = document.querySelector(`.arc-nav__radials line[data-angle="${angleDeg}"]`);
+    if (radial) {
+      radial.classList.toggle('is-active', isActive);
+      radial.style.setProperty('--route-color', a.style.getPropertyValue('--route-color'));
     }
   });
 }
@@ -225,36 +225,36 @@ window.addEventListener('resize', () => {
 // ─── ARC SEMICIRCLE NAVIGATION (JARVIS HUD) ──────────────────
 const arcNav = document.getElementById('arc-nav');
 const arcNavCore = document.getElementById('arc-nav-core');
-const arcNavTicks = document.getElementById('arc-nav-ticks');
+const arcNavRadials = document.getElementById('arc-nav-radials');
 
-function drawArcTicks() {
-  if (!arcNavTicks) return;
+function drawArcRadials() {
+  if (!arcNavRadials) return;
 
-  const hubX = 320;
-  const hubY = 320;
-  const tickRadius = 296;
+  const centerX = 250;
+  const centerY = 250;
+  const radius = 240;
 
-  arcNavTicks.innerHTML = '';
+  arcNavRadials.innerHTML = '';
   arcNavLinks.forEach(link => {
     const angleDeg = parseFloat(link.style.getPropertyValue('--angle'));
     const angleRad = (angleDeg * Math.PI) / 180;
-    const x = hubX + Math.cos(angleRad) * tickRadius;
-    const y = hubY + Math.sin(angleRad) * tickRadius;
-    const innerX = hubX + Math.cos(angleRad) * (tickRadius - 14);
-    const innerY = hubY + Math.sin(angleRad) * (tickRadius - 14);
-    const index = link.style.getPropertyValue('--i').trim();
-
+    
+    const x = centerX + Math.cos(angleRad) * radius;
+    const y = centerY + Math.sin(angleRad) * radius;
+    
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', String(innerX));
-    line.setAttribute('y1', String(innerY));
+    line.setAttribute('x1', String(centerX));
+    line.setAttribute('y1', String(centerY));
     line.setAttribute('x2', String(x));
     line.setAttribute('y2', String(y));
-    line.dataset.i = index;
+    line.dataset.angle = angleDeg;
+    
     if (link.classList.contains('active')) {
       line.classList.add('is-active');
       line.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
     }
-    arcNavTicks.appendChild(line);
+    
+    arcNavRadials.appendChild(line);
   });
 }
 
@@ -281,18 +281,18 @@ arcNavLinks.forEach(link => {
   });
 
   link.addEventListener('mouseenter', () => {
-    const index = link.style.getPropertyValue('--i').trim();
-    const tick = arcNavTicks?.querySelector(`line[data-i="${index}"]`);
-    if (tick) {
-      tick.classList.add('is-active');
-      tick.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
+    const angleDeg = link.style.getPropertyValue('--angle').trim();
+    const radial = arcNavRadials?.querySelector(`line[data-angle="${angleDeg}"]`);
+    if (radial) {
+      radial.classList.add('is-active');
+      radial.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
     }
   });
 
   link.addEventListener('mouseleave', () => {
-    const index = link.style.getPropertyValue('--i').trim();
-    const tick = arcNavTicks?.querySelector(`line[data-i="${index}"]`);
-    if (tick && !link.classList.contains('active')) tick.classList.remove('is-active');
+    const angleDeg = link.style.getPropertyValue('--angle').trim();
+    const radial = arcNavRadials?.querySelector(`line[data-angle="${angleDeg}"]`);
+    if (radial && !link.classList.contains('active')) radial.classList.remove('is-active');
   });
 });
 
@@ -306,13 +306,19 @@ if (arcNavCore) {
 }
 
 function initArcNav() {
-  drawArcTicks();
+  drawArcRadials();
+  
+  // Ensure links are visible
+  arcNavLinks.forEach(link => {
+    link.style.opacity = '1';
+  });
+  
   if (arcNav) arcNav.classList.add('is-ready');
   highlightNav();
 }
 
 initArcNav();
-window.addEventListener('resize', drawArcTicks);
+window.addEventListener('resize', drawArcRadials);
 onScroll();
 
 // ─── SCROLL-TO-TOP BUTTON ────────────────────────────────────

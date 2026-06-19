@@ -59,64 +59,86 @@
 
   <!-- Arc Semicircle Navigation (JARVIS HUD) -->
   <aside class="arc-nav" id="arc-nav" aria-label="Боковая навигация портфолио">
-    <div class="arc-nav__hud" id="arc-nav-hud">
-      <svg class="arc-nav__svg" viewBox="0 0 640 640" aria-hidden="true">
+    <div class="arc-nav__container">
+      <!-- SVG для линий и визуальных эффектов -->
+      <svg class="arc-nav__svg" viewBox="0 0 500 500" aria-hidden="true">
         <defs>
-          <linearGradient id="arc-glow-grad" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.9" />
-            <stop offset="50%" stop-color="var(--secondary)" stop-opacity="0.5" />
-            <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.2" />
+          <linearGradient id="arc-glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="var(--primary)" stop-opacity="1" />
+            <stop offset="50%" stop-color="var(--secondary)" stop-opacity="0.7" />
+            <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.4" />
           </linearGradient>
-          <filter id="arc-neon" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" result="blur" />
+          <filter id="arc-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
             <feMerge>
-              <feMergeNode in="blur" />
+              <feMergeNode in="coloredBlur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
         </defs>
-        <g class="arc-nav__arcs" filter="url(#arc-neon)">
-          <path class="arc-nav__arc arc-nav__arc--outer" d="M 320 36 A 284 284 0 0 0 320 604" />
-          <path class="arc-nav__arc arc-nav__arc--mid" d="M 320 72 A 248 248 0 0 0 320 568" />
-          <path class="arc-nav__arc arc-nav__arc--inner" d="M 320 108 A 212 212 0 0 0 320 532" />
-          <path class="arc-nav__arc arc-nav__arc--track" d="M 320 128 A 192 192 0 0 0 320 512" />
+        <!-- Основная дуга полукруга -->
+        <g class="arc-nav__arcs" filter="url(#arc-glow)">
+          <path class="arc-nav__arc arc-nav__arc--main" d="M 250 10 A 240 240 0 0 1 250 490" />
         </g>
-        <g class="arc-nav__ticks" id="arc-nav-ticks"></g>
+        <!-- Линии от центра к элементам -->
+        <g class="arc-nav__radials" id="arc-nav-radials"></g>
       </svg>
 
-      <div class="arc-nav__glass" aria-hidden="true"></div>
-      <div class="arc-nav__scan" aria-hidden="true"></div>
-
+      <!-- Центральная кнопка шестеренка -->
       <button class="arc-nav__core" id="arc-nav-core" type="button" aria-label="Система навигации JARVIS">
-        <span class="arc-nav__core-ring" aria-hidden="true"></span>
-        <span class="arc-nav__core-glow" aria-hidden="true"></span>
+        <span class="arc-nav__core-pulse" aria-hidden="true"></span>
         <i class="fa-solid fa-gear" aria-hidden="true"></i>
       </button>
 
+      <!-- Меню элементов -->
       <nav class="arc-nav__menu" aria-label="Разделы сайта">
-        <a class="arc-nav__link" href="#about" style="--i:0; --angle:270deg; --route-color:#ff9f1c;">
-          <span class="arc-nav__pill"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="arc-nav__name">О себе</span></span>
+        <a class="arc-nav__link" href="#about" style="--angle:270deg; --route-color:#ff9f1c;">
+          <span class="arc-nav__button">
+            <i class="fa-solid fa-house" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">О себе</span>
         </a>
-        <a class="arc-nav__link" href="#goal" style="--i:1; --angle:244.29deg; --route-color:#ff5d3d;">
-          <span class="arc-nav__pill"><i class="fa-solid fa-bullseye" aria-hidden="true"></i><span class="arc-nav__name">Цель</span></span>
+        <a class="arc-nav__link" href="#goal" style="--angle:237deg; --route-color:#ff5d3d;">
+          <span class="arc-nav__button">
+            <i class="fa-solid fa-bullseye" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">Цель</span>
         </a>
-        <a class="arc-nav__link" href="#story" style="--i:2; --angle:218.57deg; --route-color:#35c759;">
-          <span class="arc-nav__pill"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span class="arc-nav__name">История</span></span>
+        <a class="arc-nav__link" href="#story" style="--angle:204deg; --route-color:#35c759;">
+          <span class="arc-nav__button">
+            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">История</span>
         </a>
-        <a class="arc-nav__link" href="#mentor" style="--i:3; --angle:192.86deg; --route-color:#00a8e8;">
-          <span class="arc-nav__pill"><i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i><span class="arc-nav__name">Ментор</span></span>
+        <a class="arc-nav__link" href="#mentor" style="--angle:171deg; --route-color:#00a8e8;">
+          <span class="arc-nav__button">
+            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">Ментор</span>
         </a>
-        <a class="arc-nav__link" href="#progress" style="--i:4; --angle:167.14deg; --route-color:#6c5ce7;">
-          <span class="arc-nav__pill"><i class="fa-solid fa-chart-line" aria-hidden="true"></i><span class="arc-nav__name">Прогресс</span></span>
+        <a class="arc-nav__link" href="#progress" style="--angle:138deg; --route-color:#6c5ce7;">
+          <span class="arc-nav__button">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">Прогресс</span>
         </a>
-        <a class="arc-nav__link" href="#hobbies" style="--i:5; --angle:141.43deg; --route-color:#d630a8;">
-          <span class="arc-nav__pill"><i class="fa-solid fa-gamepad" aria-hidden="true"></i><span class="arc-nav__name">Хобби</span></span>
+        <a class="arc-nav__link" href="#hobbies" style="--angle:105deg; --route-color:#d630a8;">
+          <span class="arc-nav__button">
+            <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">Хобби</span>
         </a>
-        <a class="arc-nav__link" href="#projects" style="--i:6; --angle:115.71deg; --route-color:#8e44ff;">
-          <span class="arc-nav__pill"><i class="fa-solid fa-briefcase" aria-hidden="true"></i><span class="arc-nav__name">Работы</span></span>
+        <a class="arc-nav__link" href="#projects" style="--angle:72deg; --route-color:#8e44ff;">
+          <span class="arc-nav__button">
+            <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">Работы</span>
         </a>
-        <a class="arc-nav__link" href="#github" style="--i:7; --angle:90deg; --route-color:#64ffda;">
-          <span class="arc-nav__pill"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="arc-nav__name">GitHub</span></span>
+        <a class="arc-nav__link" href="#github" style="--angle:39deg; --route-color:#64ffda;">
+          <span class="arc-nav__button">
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
+          </span>
+          <span class="arc-nav__label">GitHub</span>
         </a>
       </nav>
     </div>
