@@ -50,16 +50,18 @@
   "works": [
     {
       "title": "Практический урок HTML/CSS/JS",
-      "description": "Пошаговая разработка и верстка веб-страницы с нуля. Реализована семантическая структура, стили, анимации и интерактивный функционал на JS.",
+      "description": "Одна из моих лучших учебных работ, выполненных на практическом уроке. В видео показано, как я создаю веб-страницу с нуля, работаю с HTML и CSS и добавляю интерактивность на JavaScript.",
       "video": "assets/videos/html-css-js-practice.mp4",
+      "poster": "assets/images/html-css-js-preview.jpg",
       "tags": ["HTML5", "CSS3", "JavaScript", "Верстка с нуля"]
     },
     {
       "title": "Практический урок на Tilda",
-      "description": "Создание современного конвертящего лендинга на Tilda. Настройка блоков, работа со стилями, адаптивность под мобильные устройства и анимация.",
+      "description": "Одна из моих лучших работ, созданных на практическом уроке по Tilda. В видео показаны настройка блоков, работа со стилями, адаптация страницы под разные устройства и добавление анимаций.",
       "video": "assets/videos/tilda-practice.mp4",
+      "poster": "assets/images/tilda-preview.jpg",
       "tags": ["Tilda", "UI/UX Дизайн", "Zero Block", "Адаптивность"]
     }
   ],
-  "github": "https://github.com/detrayer15-ship-it"
+  "github": "https://github.com/detrayer15-ship-it/EliteHeat"
 }

@@ -29,88 +29,110 @@ function getHobbyIcon(text) {
   return 'fa-solid fa-star';
 }
 
-// ─── CANVAS PARTICLES ────────────────────────────────────────
+// ─── CANVAS PARTICLES (оптимизированные) ─────────────────────
 (function initParticles() {
   const canvas = document.getElementById('particles-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isSmallScreen = window.matchMedia('(max-width: 768px)').matches;
 
   let W = canvas.width  = window.innerWidth;
   let H = canvas.height = window.innerHeight;
 
-  const COUNT = Math.min(70, Math.floor(W * H / 14000));
+  if (reduceMotion || isSmallScreen) {
+    canvas.hidden = true;
+    return;
+  }
+
+  const COUNT = Math.min(24, Math.floor(W * H / 45000));
   const particles = [];
 
   for (let i = 0; i < COUNT; i++) {
     particles.push({
       x:   Math.random() * W,
       y:   Math.random() * H,
-      r:   Math.random() * 1.6 + 0.4,
-      dx:  (Math.random() - 0.5) * 0.4,
-      dy:  (Math.random() - 0.5) * 0.4,
-      o:   Math.random() * 0.35 + 0.05,
+      r:   Math.random() * 1.4 + 0.4,
+      dx:  (Math.random() - 0.5) * 0.3,
+      dy:  (Math.random() - 0.5) * 0.3,
+      o:   Math.random() * 0.25 + 0.05,
     });
   }
 
-  function draw() {
+  const CONNECT_DIST = 90;
+  const CONNECT_DIST_SQ = CONNECT_DIST * CONNECT_DIST;
+  const FRAME_INTERVAL = 1000 / 30;
+  let lastFrame = 0;
+  let animationId = 0;
+
+  function draw(time = 0) {
+    animationId = requestAnimationFrame(draw);
+    if (document.hidden || time - lastFrame < FRAME_INTERVAL) return;
+    lastFrame = time;
     ctx.clearRect(0, 0, W, H);
-    particles.forEach(p => {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(100,255,218,${p.o})`;
-      ctx.fill();
+    const isDark = document.body.classList.contains('dark-theme');
+    const particleColor = isDark ? '100,255,218' : '37,99,235';
 
-      // Connect nearby particles
-      particles.forEach(q => {
-        const d = Math.hypot(p.x - q.x, p.y - q.y);
-        if (d < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(q.x, q.y);
-          ctx.strokeStyle = `rgba(100,255,218,${0.06 * (1 - d / 120)})`;
-          ctx.lineWidth = 0.7;
-          ctx.stroke();
-        }
-      });
-    });
-  }
-
-  function tick() {
+    // Двигаем частицы
     particles.forEach(p => {
       p.x += p.dx;
       p.y += p.dy;
       if (p.x < 0 || p.x > W) p.dx *= -1;
       if (p.y < 0 || p.y > H) p.dy *= -1;
     });
-    draw();
-    requestAnimationFrame(tick);
+
+    // Рисуем линии между близкими (O(n²) но n маленький)
+    ctx.lineWidth = 0.6;
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const dx = p.x - q.x;
+        const dy = p.y - q.y;
+        const dSq = dx * dx + dy * dy;
+        if (dSq < CONNECT_DIST_SQ) {
+          const alpha = 0.07 * (1 - Math.sqrt(dSq) / CONNECT_DIST);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(${particleColor},${alpha})`;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Рисуем точки
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${particleColor},${p.o})`;
+      ctx.fill();
+    });
+
   }
 
-  tick();
+  if (!reduceMotion) {
+    animationId = requestAnimationFrame(draw);
+  }
 
+  let resizeTimer;
   window.addEventListener('resize', () => {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }, 150);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(animationId);
+      animationId = 0;
+    } else if (!reduceMotion && !animationId) {
+      animationId = requestAnimationFrame(draw);
+    }
   });
 })();
-
-// ─── TYPED.JS ────────────────────────────────────────────────
-window.addEventListener('load', () => {
-  if (typeof Typed !== 'undefined') {
-    new Typed('.typing-text', {
-      strings: [
-        'Студент курса CapEducation',
-        'Будущий разработчик',
-        'Пишу на HTML / CSS / JS',
-        'Изучаю Python и алгоритмы',
-      ],
-      typeSpeed:  48,
-      backSpeed:  28,
-      backDelay:  2000,
-      loop:       true,
-    });
-  }
-});
 
 // ─── SCROLL PROGRESS BAR & HEADER SCROLL EFFECT ──────────────
 const scrollProgress = document.createElement('div');
@@ -118,23 +140,29 @@ scrollProgress.className = 'scroll-progress-bar';
 document.body.appendChild(scrollProgress);
 
 const header = document.getElementById('header');
+const scrollTopBtn = document.getElementById('scroll-top-btn');
+let scrollTicking = false;
+
 function onScroll() {
   header.classList.toggle('scrolled', window.scrollY > 50);
-  // Scroll-to-top button
   scrollTopBtn.style.display = window.scrollY > 400 ? 'flex' : 'none';
-  // Active nav link
   highlightNav();
-  // Scroll progress width
   const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-  if (totalHeight > 0) {
-    const pct = (window.scrollY / totalHeight) * 100;
-    scrollProgress.style.width = pct + '%';
-  }
+  const pct = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+  scrollProgress.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+  scrollTicking = false;
 }
-window.addEventListener('scroll', onScroll, { passive: true });
+
+window.addEventListener('scroll', () => {
+  if (!scrollTicking) {
+    scrollTicking = true;
+    requestAnimationFrame(onScroll);
+  }
+}, { passive: true });
 
 // ─── ACTIVE NAV HIGHLIGHT ─────────────────────────────────────
 const navLinks = document.querySelectorAll('.nav-link');
+const arcNavLinks = document.querySelectorAll('.arc-nav__link');
 const sections = document.querySelectorAll('section[id]');
 
 function highlightNav() {
@@ -145,30 +173,149 @@ function highlightNav() {
   navLinks.forEach(a => {
     a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
   });
+  arcNavLinks.forEach(a => {
+    const isActive = a.getAttribute('href') === `#${current}`;
+    a.classList.toggle('active', isActive);
+    const index = a.style.getPropertyValue('--i').trim();
+    const tick = document.querySelector(`.arc-nav__ticks line[data-i="${index}"]`);
+    if (tick) {
+      tick.classList.toggle('is-active', isActive);
+      tick.style.setProperty('--route-color', a.style.getPropertyValue('--route-color'));
+    }
+  });
 }
 
 // ─── BURGER MENU ─────────────────────────────────────────────
 const burger  = document.getElementById('burger');
 const navList = document.getElementById('nav-list');
 
+function closeMenu() {
+  navList.classList.remove('open');
+  burger.classList.remove('open');
+  burger.setAttribute('aria-expanded', 'false');
+  burger.setAttribute('aria-label', 'Открыть меню');
+  document.body.style.overflow = '';
+}
+
 burger.addEventListener('click', () => {
   const isOpen = navList.classList.toggle('open');
   burger.classList.toggle('open', isOpen);
   burger.setAttribute('aria-expanded', isOpen);
+  burger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
   document.body.style.overflow = isOpen ? 'hidden' : '';
 });
 
 navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    navList.classList.remove('open');
-    burger.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+  link.addEventListener('click', closeMenu);
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && navList.classList.contains('open')) {
+    closeMenu();
+    burger.focus();
+  }
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768 && navList.classList.contains('open')) {
+    closeMenu();
+  }
+});
+
+// ─── ARC SEMICIRCLE NAVIGATION (JARVIS HUD) ──────────────────
+const arcNav = document.getElementById('arc-nav');
+const arcNavCore = document.getElementById('arc-nav-core');
+const arcNavTicks = document.getElementById('arc-nav-ticks');
+
+function drawArcTicks() {
+  if (!arcNavTicks) return;
+
+  const hubX = 320;
+  const hubY = 320;
+  const tickRadius = 296;
+
+  arcNavTicks.innerHTML = '';
+  arcNavLinks.forEach(link => {
+    const angleDeg = parseFloat(link.style.getPropertyValue('--angle'));
+    const angleRad = (angleDeg * Math.PI) / 180;
+    const x = hubX + Math.cos(angleRad) * tickRadius;
+    const y = hubY + Math.sin(angleRad) * tickRadius;
+    const innerX = hubX + Math.cos(angleRad) * (tickRadius - 14);
+    const innerY = hubY + Math.sin(angleRad) * (tickRadius - 14);
+    const index = link.style.getPropertyValue('--i').trim();
+
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', String(innerX));
+    line.setAttribute('y1', String(innerY));
+    line.setAttribute('x2', String(x));
+    line.setAttribute('y2', String(y));
+    line.dataset.i = index;
+    if (link.classList.contains('active')) {
+      line.classList.add('is-active');
+      line.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
+    }
+    arcNavTicks.appendChild(line);
+  });
+}
+
+function scrollToSection(target) {
+  const headerHeight = header ? header.offsetHeight : 0;
+  const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+  window.scrollTo({ top, behavior: 'smooth' });
+  window.setTimeout(() => {
+    window.scrollTo({ top, behavior: 'auto' });
+    highlightNav();
+  }, 800);
+}
+
+arcNavLinks.forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+
+    const hash = link.getAttribute('href');
+    const target = document.querySelector(hash);
+    if (!target) return;
+
+    history.pushState(null, '', hash);
+    scrollToSection(target);
+  });
+
+  link.addEventListener('mouseenter', () => {
+    const index = link.style.getPropertyValue('--i').trim();
+    const tick = arcNavTicks?.querySelector(`line[data-i="${index}"]`);
+    if (tick) {
+      tick.classList.add('is-active');
+      tick.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
+    }
+  });
+
+  link.addEventListener('mouseleave', () => {
+    const index = link.style.getPropertyValue('--i').trim();
+    const tick = arcNavTicks?.querySelector(`line[data-i="${index}"]`);
+    if (tick && !link.classList.contains('active')) tick.classList.remove('is-active');
   });
 });
 
+if (arcNavCore) {
+  arcNavCore.addEventListener('click', () => {
+    arcNavCore.classList.remove('is-pulse');
+    void arcNavCore.offsetWidth;
+    arcNavCore.classList.add('is-pulse');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+function initArcNav() {
+  drawArcTicks();
+  if (arcNav) arcNav.classList.add('is-ready');
+  highlightNav();
+}
+
+initArcNav();
+window.addEventListener('resize', drawArcTicks);
+onScroll();
+
 // ─── SCROLL-TO-TOP BUTTON ────────────────────────────────────
-const scrollTopBtn = document.getElementById('scroll-top-btn');
 scrollTopBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
@@ -193,6 +340,30 @@ function observeReveal() {
 }
 observeReveal();
 
+function restoreAnchorPosition() {
+  if (!window.location.hash) return;
+
+  const target = document.getElementById(window.location.hash.slice(1));
+  if (!target) return;
+
+  const scrollToTarget = () => {
+    const headerHeight = header ? header.offsetHeight : 0;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+    window.scrollTo({ top, behavior: 'auto' });
+    onScroll();
+  };
+
+  requestAnimationFrame(scrollToTarget);
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(scrollToTarget);
+  }
+
+  if (document.readyState !== 'complete') {
+    window.addEventListener('load', scrollToTarget, { once: true });
+  }
+}
+
 // ─── FETCH API — LOAD data.json ───────────────────────────────
 fetch('data.json')
   .then(res => {
@@ -209,6 +380,7 @@ fetch('data.json')
 
     // After rendering, observe new .reveal elements
     observeReveal();
+    restoreAnchorPosition();
   })
   .catch(err => {
     console.error('Fetch error:', err);
@@ -288,8 +460,9 @@ function renderProjects(works) {
 
   grid.innerHTML = works.map(w => {
     const tagsHtml = (w.tags || []).map(t => `<span>${t}</span>`).join('');
+    const posterAttr = w.poster ? ` poster="${w.poster}"` : '';
     const mediaHtml = w.video
-      ? `<video controls preload="metadata" aria-label="${w.title}">
+      ? `<video controls preload="none" playsinline${posterAttr} aria-label="${w.title}">
            <source src="${w.video}" type="video/mp4">
            Ваш браузер не поддерживает видео.
          </video>`
@@ -311,3 +484,32 @@ function renderProjects(works) {
     `;
   }).join('');
 }
+
+// ─── THEME SWITCHER ──────────────────────────────────────────
+(function initThemeSwitcher() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+
+  function syncTheme(theme) {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+      if (themeIcon) themeIcon.className = 'fa-solid fa-sun';
+    } else {
+      document.body.classList.remove('dark-theme');
+      if (themeIcon) themeIcon.className = 'fa-solid fa-moon';
+    }
+  }
+
+  // Set default theme to light if none saved
+  const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
+  syncTheme(savedTheme);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark-theme');
+      const newTheme = isDark ? 'light' : 'dark';
+      localStorage.setItem('portfolio-theme', newTheme);
+      syncTheme(newTheme);
+    });
+  }
+})();

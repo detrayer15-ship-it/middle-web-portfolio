@@ -7,6 +7,7 @@
   <meta name="description"
     content="Портфолио Даниял — будущего разработчика из Казахстана. Обо мне, мой путь в IT, проекты и GitHub.">
   <title>Даниял | Портфолио Middle Web</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,11 +27,6 @@
 
   <!-- Particles Background -->
   <canvas id="particles-canvas"></canvas>
-
-  <!-- Background Glow Aura -->
-  <div class="bg-glow bg-glow-1"></div>
-  <div class="bg-glow bg-glow-2"></div>
-  <div class="bg-glow bg-glow-3"></div>
 
   <!-- Header / Navigation -->
   <header class="header" id="header">
@@ -52,11 +48,79 @@
           <li><a href="#github" class="nav-link">GitHub</a></li>
         </ul>
       </nav>
-      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему" title="Переключить тему">
+        <i class="fa-solid fa-sun" id="theme-icon"></i>
+      </button>
+      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav-list">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
+
+  <!-- Arc Semicircle Navigation (JARVIS HUD) -->
+  <aside class="arc-nav" id="arc-nav" aria-label="Боковая навигация портфолио">
+    <div class="arc-nav__hud" id="arc-nav-hud">
+      <svg class="arc-nav__svg" viewBox="0 0 640 640" aria-hidden="true">
+        <defs>
+          <linearGradient id="arc-glow-grad" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.9" />
+            <stop offset="50%" stop-color="var(--secondary)" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.2" />
+          </linearGradient>
+          <filter id="arc-neon" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g class="arc-nav__arcs" filter="url(#arc-neon)">
+          <path class="arc-nav__arc arc-nav__arc--outer" d="M 320 36 A 284 284 0 0 0 320 604" />
+          <path class="arc-nav__arc arc-nav__arc--mid" d="M 320 72 A 248 248 0 0 0 320 568" />
+          <path class="arc-nav__arc arc-nav__arc--inner" d="M 320 108 A 212 212 0 0 0 320 532" />
+          <path class="arc-nav__arc arc-nav__arc--track" d="M 320 128 A 192 192 0 0 0 320 512" />
+        </g>
+        <g class="arc-nav__ticks" id="arc-nav-ticks"></g>
+      </svg>
+
+      <div class="arc-nav__glass" aria-hidden="true"></div>
+      <div class="arc-nav__scan" aria-hidden="true"></div>
+
+      <button class="arc-nav__core" id="arc-nav-core" type="button" aria-label="Система навигации JARVIS">
+        <span class="arc-nav__core-ring" aria-hidden="true"></span>
+        <span class="arc-nav__core-glow" aria-hidden="true"></span>
+        <i class="fa-solid fa-gear" aria-hidden="true"></i>
+      </button>
+
+      <nav class="arc-nav__menu" aria-label="Разделы сайта">
+        <a class="arc-nav__link" href="#about" style="--i:0; --angle:270deg; --route-color:#ff9f1c;">
+          <span class="arc-nav__pill"><i class="fa-solid fa-house" aria-hidden="true"></i><span class="arc-nav__name">О себе</span></span>
+        </a>
+        <a class="arc-nav__link" href="#goal" style="--i:1; --angle:244.29deg; --route-color:#ff5d3d;">
+          <span class="arc-nav__pill"><i class="fa-solid fa-bullseye" aria-hidden="true"></i><span class="arc-nav__name">Цель</span></span>
+        </a>
+        <a class="arc-nav__link" href="#story" style="--i:2; --angle:218.57deg; --route-color:#35c759;">
+          <span class="arc-nav__pill"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span class="arc-nav__name">История</span></span>
+        </a>
+        <a class="arc-nav__link" href="#mentor" style="--i:3; --angle:192.86deg; --route-color:#00a8e8;">
+          <span class="arc-nav__pill"><i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i><span class="arc-nav__name">Ментор</span></span>
+        </a>
+        <a class="arc-nav__link" href="#progress" style="--i:4; --angle:167.14deg; --route-color:#6c5ce7;">
+          <span class="arc-nav__pill"><i class="fa-solid fa-chart-line" aria-hidden="true"></i><span class="arc-nav__name">Прогресс</span></span>
+        </a>
+        <a class="arc-nav__link" href="#hobbies" style="--i:5; --angle:141.43deg; --route-color:#d630a8;">
+          <span class="arc-nav__pill"><i class="fa-solid fa-gamepad" aria-hidden="true"></i><span class="arc-nav__name">Хобби</span></span>
+        </a>
+        <a class="arc-nav__link" href="#projects" style="--i:6; --angle:115.71deg; --route-color:#8e44ff;">
+          <span class="arc-nav__pill"><i class="fa-solid fa-briefcase" aria-hidden="true"></i><span class="arc-nav__name">Работы</span></span>
+        </a>
+        <a class="arc-nav__link" href="#github" style="--i:7; --angle:90deg; --route-color:#64ffda;">
+          <span class="arc-nav__pill"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="arc-nav__name">GitHub</span></span>
+        </a>
+      </nav>
+    </div>
+  </aside>
 
   <main>
 
@@ -69,12 +133,12 @@
         <div class="profile-photo reveal">
           <div class="photo-ring"></div>
           <img
-            src="https://ui-avatars.com/api/?name=D&size=300&background=0d1b2e&color=64ffda&font-size=0.5&bold=true&rounded=true"
+            src="assets/images/profile.svg"
             alt="Фото Данияла" width="200" height="200">
           <div class="photo-status"><i class="fa-solid fa-circle"></i> Открыт для проектов</div>
         </div>
         <h1 class="hero-title reveal">Привет, я <span class="gradient-text">Даниял</span> 👋</h1>
-        <h2 class="hero-subtitle reveal"><span class="typing-text"></span></h2>
+        <h2 class="hero-subtitle reveal">Будущий специалист по кибербезопасности</h2>
         <p class="hero-desc reveal">Учусь в <strong>10 классе</strong>, увлекаюсь программированием, математикой и
           современными технологиями. Создаю сайты с нуля и верю, что код меняет мир.</p>
 
@@ -92,16 +156,18 @@
           </a>
         </div>
       </div>
-      <a href="#goal" class="scroll-down" aria-label="Прокрутить вниз">
+      <a href="#goal" class="scroll-down" aria-label="Перейти к следующему разделу">
         <i class="fa-solid fa-chevron-down"></i>
       </a>
     </section>
+
+    <div class="section-divider"></div>
 
     <!-- 2. Моя цель -->
     <section class="section" id="goal">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-tag"><i class="fa-solid fa-bullseye"></i> Блок 2</span>
+          <span class="section-tag"><i class="fa-solid fa-bullseye"></i> Цель</span>
           <h2 class="section-title">Моя <span class="gradient-text">цель</span></h2>
           <p class="section-subtitle">Зачем я в программировании и к чему иду</p>
         </div>
@@ -110,18 +176,30 @@
             <div class="goal-icon"><i class="fa-solid fa-graduation-cap"></i></div>
             <h3>Поступление в Astana IT University</h3>
             <p>Хочу получить высшее образование в лучшем IT-университете Казахстана на бюджетной основе и стать
-              профессиональным разработчиком.</p>
+              специалистом по кибербезопасности.</p>
+            <div class="cyber-goal">
+              <h4><i class="fa-solid fa-shield-halved"></i> Развитие в кибербезопасности</h4>
+              <p>Планирую изучать Linux и компьютерные сети, применять Python для автоматизации, разбираться в
+                веб-уязвимостях и участвовать в CTF-соревнованиях.</p>
+              <div class="cyber-goal-tags" aria-label="Направления развития">
+                <span>Linux</span>
+                <span>Сети</span>
+                <span>Python</span>
+                <span>Web Security</span>
+                <span>CTF</span>
+              </div>
+            </div>
           </div>
-          <div class="goal-targets">
+          <div class="goal-targets" id="goal-targets">
             <div class="target-item glass-card reveal">
               <div class="target-num">130+</div>
               <div class="target-label">Баллов на ЕНТ</div>
-              <div class="target-sub">Target: 125 • Сдаю 2026</div>
+              <div class="target-sub">Моя цель • Сдаю в 2028 году</div>
             </div>
             <div class="target-item glass-card reveal">
               <div class="target-num">9.0</div>
               <div class="target-label">IELTS Academic</div>
-              <div class="target-sub">Академический уровень</div>
+              <div class="target-sub">Сдаю 2027</div>
             </div>
             <div class="target-item glass-card reveal">
               <div class="target-num">🏆</div>
@@ -130,18 +208,51 @@
             </div>
           </div>
         </div>
+        <div class="year-plan reveal">
+          <div class="year-plan-heading">
+            <span class="year-plan-icon"><i class="fa-solid fa-calendar-check"></i></span>
+            <div>
+              <h3>План развития на ближайший год</h3>
+              <p>Четыре направления, которые помогут мне приблизиться к профессии в кибербезопасности.</p>
+            </div>
+          </div>
+          <div class="year-plan-grid">
+            <article class="year-plan-item">
+              <span class="year-plan-number">01</span>
+              <h4>Linux и сети</h4>
+              <p>Освоить командную строку, файловую систему и основы работы компьютерных сетей.</p>
+            </article>
+            <article class="year-plan-item">
+              <span class="year-plan-number">02</span>
+              <h4>Python</h4>
+              <p>Создавать полезные скрипты для автоматизации и закреплять знание алгоритмов.</p>
+            </article>
+            <article class="year-plan-item">
+              <span class="year-plan-number">03</span>
+              <h4>Web Security</h4>
+              <p>Изучить базовые веб-уязвимости и способы защиты сайтов и пользовательских данных.</p>
+            </article>
+            <article class="year-plan-item">
+              <span class="year-plan-number">04</span>
+              <h4>Практика и CTF</h4>
+              <p>Решить первые CTF-задачи и создать собственные учебные инструменты на Python.</p>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 3. Как я пришёл в IT -->
+    <div class="section-divider"></div>
+
+
     <section class="section" id="story">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-tag"><i class="fa-solid fa-route"></i> Блок 3</span>
+          <span class="section-tag"><i class="fa-solid fa-route"></i> Путь в IT</span>
           <h2 class="section-title">Как я пришёл <span class="gradient-text">в IT</span></h2>
           <p class="section-subtitle">Моя история: что привело меня в эту сферу</p>
         </div>
-        <div class="timeline reveal">
+        <div class="timeline reveal" id="timeline-container">
           <div class="timeline-item">
             <div class="timeline-dot"><i class="fa-solid fa-laptop"></i></div>
             <div class="timeline-content glass-card">
@@ -174,11 +285,13 @@
       </div>
     </section>
 
-    <!-- 4. Мой ментор -->
+    <div class="section-divider"></div>
+
+
     <section class="section" id="mentor">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-tag"><i class="fa-solid fa-user-graduate"></i> Блок 4</span>
+          <span class="section-tag"><i class="fa-solid fa-user-graduate"></i> Ментор</span>
           <h2 class="section-title">Мой <span class="gradient-text">ментор</span></h2>
           <p class="section-subtitle">Кто помогает и вдохновляет меня</p>
         </div>
@@ -191,9 +304,11 @@
           <div class="mentor-info">
             <h3>Askar Bakeyev</h3>
             <p class="mentor-role"><i class="fa-solid fa-chalkboard-user"></i> Преподаватель курса CapEducation</p>
-            <p class="mentor-desc">Askar — мой главный наставник, который показал мне правильный путь в мире
-              программирования. Благодаря ему я понял, что учиться коду — это не скучно, а безумно интересно.</p>
-            <div class="mentor-lessons">
+            <p class="mentor-desc">Askar Bakeyev — преподаватель CapEducation и мой ментор. Он вовремя помогает,
+              когда у меня возникают ошибки в коде, спокойно объясняет назначение каждой части программы и учит
+              самостоятельно находить решение. Благодаря его поддержке я стал лучше понимать HTML, CSS и JavaScript,
+              писать более чистый код и увереннее работать над своими проектами.</p>
+            <div class="mentor-lessons" id="mentor-lessons">
               <div class="lesson-tag"><i class="fa-solid fa-check"></i> Семантический HTML</div>
               <div class="lesson-tag"><i class="fa-solid fa-check"></i> Flexbox & Grid</div>
               <div class="lesson-tag"><i class="fa-solid fa-check"></i> JavaScript DOM</div>
@@ -204,16 +319,18 @@
       </div>
     </section>
 
-    <!-- 5. Точка А → Точка Б (с Fetch API) -->
+    <div class="section-divider"></div>
+
+
     <section class="section" id="progress">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-tag"><i class="fa-solid fa-chart-line"></i> Блок 5</span>
+          <span class="section-tag"><i class="fa-solid fa-chart-line"></i> Прогресс</span>
           <h2 class="section-title">Точка А <span class="gradient-text">→</span> Точка Б</h2>
           <p class="section-subtitle">Мой прогресс — данные загружаются через Fetch API</p>
         </div>
 
-        <div class="progress-wrapper">
+        <div class="progress-wrapper" id="progress-wrapper">
           <div class="point-a glass-card reveal" id="point-a-container">
             <div class="point-header">
               <div class="point-icon point-icon-a"><i class="fa-solid fa-seedling"></i></div>
@@ -251,11 +368,13 @@
       </div>
     </section>
 
-    <!-- 6. Хобби и интересы (из data.json) -->
+    <div class="section-divider"></div>
+
+
     <section class="section" id="hobbies">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-tag"><i class="fa-solid fa-heart"></i> Блок 6</span>
+          <span class="section-tag"><i class="fa-solid fa-heart"></i> Хобби</span>
           <h2 class="section-title">Хобби и <span class="gradient-text">интересы</span></h2>
           <p class="section-subtitle">Чем я увлекаюсь вне учёбы</p>
         </div>
@@ -265,13 +384,15 @@
       </div>
     </section>
 
-    <!-- 7. Мои лучшие работы (из data.json) -->
+    <div class="section-divider"></div>
+
+
     <section class="section" id="projects">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-tag"><i class="fa-solid fa-star"></i> Блок 7</span>
+          <span class="section-tag"><i class="fa-solid fa-star"></i> Работы</span>
           <h2 class="section-title">Мои лучшие <span class="gradient-text">работы</span></h2>
-          <p class="section-subtitle">Лучшие проекты с курса GetCourse</p>
+          <p class="section-subtitle">Лучшие учебные работы, которые я выполнил на практических уроках</p>
         </div>
         <div class="projects-grid" id="projects-grid">
           <div class="projects-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка проектов...</div>
@@ -279,11 +400,13 @@
       </div>
     </section>
 
-    <!-- 8. GitHub -->
+    <div class="section-divider"></div>
+
+
     <section class="section" id="github">
       <div class="container">
         <div class="section-header reveal">
-          <span class="section-tag"><i class="fa-brands fa-github"></i> Блок 8</span>
+          <span class="section-tag"><i class="fa-brands fa-github"></i> GitHub</span>
           <h2 class="section-title">Мой <span class="gradient-text">GitHub</span></h2>
           <p class="section-subtitle">Весь код проекта открыт и залит в репозиторий</p>
         </div>
@@ -293,8 +416,8 @@
           </div>
           <div class="github-info">
             <h3>detrayer15-ship-it</h3>
-            <p>Здесь хранится весь код этого портфолио — чистый <code>index.html</code>, <code>style.css</code> и
-              <code>script.js</code> с осмысленной историей коммитов.
+            <p>В репозитории находится мой проект <strong>EliteHeat</strong>. Он показывает мой интерес к разработке,
+              технологиям и созданию собственных цифровых продуктов.
             </p>
             <div class="github-stats">
               <div class="github-stat"><i class="fa-solid fa-code-branch"></i> index.html</div>
@@ -302,7 +425,7 @@
               <div class="github-stat"><i class="fa-brands fa-js"></i> script.js</div>
               <div class="github-stat"><i class="fa-solid fa-database"></i> data.json</div>
             </div>
-            <a href="https://github.com/detrayer15-ship-it" class="btn btn-primary" id="github-link" target="_blank"
+            <a href="https://github.com/detrayer15-ship-it/EliteHeat" class="btn btn-primary" id="github-link" target="_blank"
               rel="noopener noreferrer">
               <i class="fa-brands fa-github"></i> Открыть репозиторий
             </a>
@@ -327,7 +450,6 @@
   </button>
 
   <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/dist/typed.umd.js"></script>
   <script src="script.js"></script>
 </body>
 
