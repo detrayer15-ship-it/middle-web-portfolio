@@ -1794,6 +1794,7 @@ body.dark-theme .arc-nav__button {
     --arc-radius: 110px;
     --core-size: 32px;
     opacity: 0.9;
+    right: -80px;
   }
 
   .arc-nav__core i {
@@ -1808,6 +1809,7 @@ body.dark-theme .arc-nav__button {
   .arc-nav__label {
     font-size: 8px;
     letter-spacing: 0;
+    opacity: 0.7;
     transform:
       translate(-50%, -50%)
       rotate(var(--angle))
@@ -1824,6 +1826,61 @@ body.dark-theme .arc-nav__button {
       translateX(calc(var(--arc-radius) - 10px))
       rotate(calc(-1 * var(--angle)))
       scale(1.08);
+  }
+}
+
+@media (max-width: 480px) {
+  .arc-nav {
+    --arc-size: 160px;
+    --arc-radius: 80px;
+    --core-size: 28px;
+    opacity: 0.7;
+    right: -60px;
+    top: 35%;
+    pointer-events: none;
+  }
+
+  .arc-nav__container {
+    pointer-events: auto;
+  }
+
+  .arc-nav__core {
+    pointer-events: auto;
+  }
+
+  .arc-nav__svg {
+    opacity: 0.4;
+  }
+
+  .arc-nav__core i {
+    font-size: 12px;
+  }
+
+  .arc-nav__button {
+    --button-radius: 16px;
+    font-size: 9px;
+    opacity: 0.8;
+    pointer-events: auto;
+  }
+
+  .arc-nav__label {
+    display: none;
+  }
+
+  .arc-nav__link:hover .arc-nav__button,
+  .arc-nav__link:focus-visible .arc-nav__button {
+    --shift: 8px;
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--angle))
+      translateX(calc(var(--arc-radius) - 8px))
+      rotate(calc(-1 * var(--angle)))
+      scale(1.15);
+  }
+
+  .arc-nav__link.active .arc-nav__button {
+    opacity: 1;
   }
 }
 
@@ -2028,8 +2085,9 @@ body.dark-theme #scroll-top-btn:hover {
 
 @media (max-width: 480px) {
   .arc-nav {
-    --arc-radius: 158px;
-    --arc-core: 44px;
+    --arc-radius: 80px;
+    --arc-size: 160px;
+    --core-size: 28px;
   }
 
   .arc-nav__pill {
