@@ -559,16 +559,22 @@ function renderProjects(works) {
 
   grid.innerHTML = works.map(w => {
     const tagsHtml = (w.tags || []).map(t => `<span>${t}</span>`).join('');
-    const posterAttr = w.poster ? ` poster="${w.poster}"` : '';
-    const mediaHtml = w.video
-      ? `<video controls preload="none" playsinline${posterAttr} aria-label="${w.title}">
+    
+    let mediaHtml = '';
+    if (w.video) {
+      const posterAttr = w.poster ? ` poster="${w.poster}"` : '';
+      mediaHtml = `<video controls preload="none" playsinline${posterAttr} aria-label="${w.title}">
            <source src="${w.video}" type="video/mp4">
            Ваш браузер не поддерживает видео.
-         </video>`
-      : `<div class="project-media-placeholder">
+         </video>`;
+    } else if (w.image || w.poster) {
+      mediaHtml = `<img src="${w.image || w.poster}" alt="${w.title}" loading="lazy">`;
+    } else {
+      mediaHtml = `<div class="project-media-placeholder">
            <i class="fa-solid fa-photo-film"></i>
            <span>Видео скоро появится</span>
          </div>`;
+    }
 
     return `
       <article class="project-card glass-card reveal">

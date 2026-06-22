@@ -1900,7 +1900,8 @@ body.dark-theme .mobile-nav__item.active {
   position: relative;
 }
 
-.project-media video {
+.project-media video,
+.project-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;

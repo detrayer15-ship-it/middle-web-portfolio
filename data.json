@@ -61,6 +61,19 @@
       "video": "assets/videos/tilda-practice.mp4",
       "poster": "assets/images/tilda-preview.jpg",
       "tags": ["Tilda", "UI/UX Дизайн", "Zero Block", "Адаптивность"]
+    },
+    {
+      "title": "Практическая работа в Figma",
+      "description": "Моя практическая работа в графическом редакторе Figma. В рамках работы был спроектирован интерфейс, созданы интерактивные компоненты, сетки и подготовлен адаптивный дизайн-макет.",
+      "image": "assets/images/figma-practice.png",
+      "tags": ["Figma", "UI/UX Дизайн", "Прототипирование", "Компоненты"]
+    },
+    {
+      "title": "Практическая работа HTML/CSS",
+      "description": "Практическая работа по верстке веб-страницы. В видео показан процесс написания семантического HTML-кода и стилизации элементов с помощью современных методов CSS без использования JS.",
+      "video": "assets/videos/html-css-practice.mp4",
+      "poster": "assets/images/html-css-preview.jpg",
+      "tags": ["HTML5", "CSS3", "Flexbox/Grid", "Адаптивная верстка"]
     }
   ],
   "github": "https://github.com/detrayer15-ship-it/middle-web-portfolio"
