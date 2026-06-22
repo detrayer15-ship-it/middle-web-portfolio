@@ -53,8 +53,8 @@
 
 ## GitHub
 
-- Репозиторий: https://github.com/detrayer15-ship-it/EliteHeat
-- Сайт на GitHub Pages: https://detrayer15-ship-it.github.io/EliteHeat/
+- Репозиторий: https://github.com/detrayer15-ship-it/middle-web-portfolio
+- Сайт на GitHub Pages: https://detrayer15-ship-it.github.io/middle-web-portfolio/
 
 
 ## Автор

@@ -163,6 +163,7 @@ window.addEventListener('scroll', () => {
 // ─── ACTIVE NAV HIGHLIGHT ─────────────────────────────────────
 const navLinks = document.querySelectorAll('.nav-link');
 const arcNavLinks = document.querySelectorAll('.arc-nav__link');
+const mobileNavLinks = document.querySelectorAll('.mobile-nav__item');
 const sections = document.querySelectorAll('section[id]');
 
 function highlightNav() {
@@ -176,12 +177,10 @@ function highlightNav() {
   arcNavLinks.forEach(a => {
     const isActive = a.getAttribute('href') === `#${current}`;
     a.classList.toggle('active', isActive);
-    const angleDeg = a.style.getPropertyValue('--angle').trim();
-    const radial = document.querySelector(`.arc-nav__radials line[data-angle="${angleDeg}"]`);
-    if (radial) {
-      radial.classList.toggle('is-active', isActive);
-      radial.style.setProperty('--route-color', a.style.getPropertyValue('--route-color'));
-    }
+  });
+  mobileNavLinks.forEach(a => {
+    const isActive = a.getAttribute('href') === `#${current}`;
+    a.classList.toggle('active', isActive);
   });
 }
 
@@ -190,34 +189,57 @@ const burger  = document.getElementById('burger');
 const navList = document.getElementById('nav-list');
 
 function closeMenu() {
-  navList.classList.remove('open');
-  burger.classList.remove('open');
-  burger.setAttribute('aria-expanded', 'false');
-  burger.setAttribute('aria-label', 'Открыть меню');
+  if (navList) navList.classList.remove('open');
+  if (burger) {
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Открыть меню');
+  }
   document.body.style.overflow = '';
 }
 
-burger.addEventListener('click', () => {
-  const isOpen = navList.classList.toggle('open');
-  burger.classList.toggle('open', isOpen);
-  burger.setAttribute('aria-expanded', isOpen);
-  burger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
-  document.body.style.overflow = isOpen ? 'hidden' : '';
-});
+if (burger && navList) {
+  burger.addEventListener('click', () => {
+    const isOpen = navList.classList.toggle('open');
+    burger.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', isOpen);
+    burger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+}
 
 navLinks.forEach(link => {
-  link.addEventListener('click', closeMenu);
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    const hash = link.getAttribute('href');
+    const target = document.querySelector(hash);
+    if (!target) return;
+    closeMenu();
+    history.pushState(null, '', hash);
+    scrollToSection(target);
+  });
+});
+
+mobileNavLinks.forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    const hash = link.getAttribute('href');
+    const target = document.querySelector(hash);
+    if (!target) return;
+    history.pushState(null, '', hash);
+    scrollToSection(target);
+  });
 });
 
 document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && navList.classList.contains('open')) {
+  if (event.key === 'Escape' && navList && navList.classList.contains('open')) {
     closeMenu();
-    burger.focus();
+    if (burger) burger.focus();
   }
 });
 
 window.addEventListener('resize', () => {
-  if (window.innerWidth > 768 && navList.classList.contains('open')) {
+  if (window.innerWidth > 768 && navList && navList.classList.contains('open')) {
     closeMenu();
   }
 });
@@ -228,34 +250,7 @@ const arcNavCore = document.getElementById('arc-nav-core');
 const arcNavRadials = document.getElementById('arc-nav-radials');
 
 function drawArcRadials() {
-  if (!arcNavRadials) return;
-
-  const centerX = 140;
-  const centerY = 140;
-  const radius = 130;
-
-  arcNavRadials.innerHTML = '';
-  arcNavLinks.forEach(link => {
-    const angleDeg = parseFloat(link.style.getPropertyValue('--angle'));
-    const angleRad = (angleDeg * Math.PI) / 180;
-    
-    const x = centerX + Math.cos(angleRad) * radius;
-    const y = centerY + Math.sin(angleRad) * radius;
-    
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', String(centerX));
-    line.setAttribute('y1', String(centerY));
-    line.setAttribute('x2', String(x));
-    line.setAttribute('y2', String(y));
-    line.dataset.angle = angleDeg;
-    
-    if (link.classList.contains('active')) {
-      line.classList.add('is-active');
-      line.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
-    }
-    
-    arcNavRadials.appendChild(line);
-  });
+  // No longer needed — side nav doesn't use SVG radials
 }
 
 function scrollToSection(target) {
@@ -306,8 +301,6 @@ if (arcNavCore) {
 }
 
 function initArcNav() {
-  drawArcRadials();
-  
   // Ensure links are visible
   arcNavLinks.forEach(link => {
     link.style.opacity = '1';
@@ -318,7 +311,6 @@ function initArcNav() {
 }
 
 initArcNav();
-window.addEventListener('resize', drawArcRadials);
 onScroll();
 
 // ─── SCROLL-TO-TOP BUTTON ────────────────────────────────────
@@ -345,6 +337,7 @@ function observeReveal() {
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 }
 observeReveal();
+
 // ─── INTERSECTION OBSERVER — TRACK ACTIVE SECTION ───────────
 // Отслеживает какой раздел находится в поле зрения и обновляет навигацию
 const sectionObserver = new IntersectionObserver((entries) => {
@@ -352,7 +345,7 @@ const sectionObserver = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       const sectionId = entry.target.id;
       
-      // Обновляем все ссылки в обеих навигациях
+      // Обновляем все ссылки в навигациях
       navLinks.forEach(link => {
         const isActive = link.getAttribute('href') === `#${sectionId}`;
         link.classList.toggle('active', isActive);
@@ -361,22 +354,31 @@ const sectionObserver = new IntersectionObserver((entries) => {
       arcNavLinks.forEach(link => {
         const isActive = link.getAttribute('href') === `#${sectionId}`;
         link.classList.toggle('active', isActive);
-        
-        // Обновляем радиальную линию
-        const angleDeg = link.style.getPropertyValue('--angle').trim();
-        const radial = document.querySelector(`.arc-nav__radials line[data-angle="${angleDeg}"]`);
-        if (radial) {
-          radial.classList.toggle('is-active', isActive);
-          if (isActive) {
-            radial.style.setProperty('--route-color', link.style.getPropertyValue('--route-color'));
+
+        if (isActive) {
+          const hintLabel = document.getElementById('arc-indicator-text');
+          if (hintLabel) {
+            hintLabel.textContent = link.querySelector('.arc-nav__label')?.textContent?.trim() || link.textContent.trim();
+            const routeColor = link.style.getPropertyValue('--route-color');
+            hintLabel.style.color = routeColor;
+            const dot = document.querySelector('.arc-nav__indicator-dot');
+            if (dot) {
+              dot.style.background = routeColor;
+              dot.style.boxShadow = `0 0 10px ${routeColor}`;
+            }
           }
         }
+      });
+
+      mobileNavLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === `#${sectionId}`;
+        link.classList.toggle('active', isActive);
       });
     }
   });
 }, { 
-  threshold: 0.3,  // Триггер когда 30% раздела видна
-  rootMargin: '0px 0px -66% 0px'  // Концентрируемся на верхней части экрана
+  threshold: 0,
+  rootMargin: '-20% 0px -50% 0px'
 });
 
 // Наблюдаем за всеми секциями
@@ -432,18 +434,74 @@ fetch('data.json')
       });
   });
 
-// ─── RENDER: FACTS ───────────────────────────────────────────
+// ─── RENDER: FACTS (tabs) ────────────────────────────────────
 function renderFacts(facts) {
   const container = document.getElementById('facts-container');
   if (!container) return;
   if (!facts.length) { container.innerHTML = ''; return; }
 
-  container.innerHTML = facts.map(text => `
-    <div class="fact-item reveal">
-      <i class="fa-solid fa-lightbulb"></i>
-      <span>${text}</span>
-    </div>
+  // Icons for each fact tab
+  const icons = ['fa-code', 'fa-brain', 'fa-terminal', 'fa-globe'];
+
+  const tabsHtml = facts.map((text, i) => `
+    <button
+      class="fact-tab${i === 0 ? ' active' : ''}"
+      data-index="${i}"
+      aria-selected="${i === 0}"
+      role="tab"
+      id="fact-tab-${i}"
+      aria-controls="facts-panel"
+    >
+      <span class="fact-tab__num">ФАКТ ${i + 1}</span>
+      <i class="fa-solid ${icons[i] || 'fa-star'}" aria-hidden="true"></i>
+    </button>
   `).join('');
+
+  container.innerHTML = `
+    <div class="facts-tabs-row" role="tablist" aria-label="Факты обо мне">
+      ${tabsHtml}
+    </div>
+    <div class="facts-panel glass-card" id="facts-panel" role="tabpanel" aria-labelledby="fact-tab-0">
+      <div class="facts-panel__inner">
+        <i class="fa-solid fa-lightbulb facts-panel__icon" aria-hidden="true"></i>
+        <p class="facts-panel__text">${facts[0]}</p>
+      </div>
+      <div class="facts-panel__lines" aria-hidden="true">
+        ${facts.map((_, i) => `<span class="facts-panel__line${i === 0 ? ' active' : ''}" data-index="${i}"></span>`).join('')}
+      </div>
+    </div>
+  `;
+
+  // Wire up tab clicks
+  const tabs   = container.querySelectorAll('.fact-tab');
+  const panelP = container.querySelector('.facts-panel__text');
+  const panelI = container.querySelector('.facts-panel__icon');
+  const lines  = container.querySelectorAll('.facts-panel__line');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const idx = Number(tab.dataset.index);
+
+      // Update tab active state
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      // Update line indicators
+      lines.forEach(l => l.classList.toggle('active', Number(l.dataset.index) === idx));
+
+      // Animate panel text
+      panelP.style.opacity = '0';
+      panelP.style.transform = 'translateY(10px)';
+      panelI.style.opacity = '0';
+      setTimeout(() => {
+        panelP.textContent = facts[idx];
+        panelP.style.opacity = '1';
+        panelP.style.transform = 'translateY(0)';
+        panelI.style.opacity = '1';
+      }, 200);
+    });
+  });
 }
 
 // ─── RENDER: POINT A ─────────────────────────────────────────
@@ -554,3 +612,91 @@ function renderProjects(works) {
     });
   }
 })();
+
+// ─── SPLASH SCREEN ───────────────────────────────────────────
+(function initSplash() {
+  const splash = document.getElementById('splash');
+  const bar    = document.getElementById('splash-bar');
+  if (!splash || !bar) return;
+
+  // Animate progress bar 0 → 100% over ~1.2s using RAF
+  let pct = 0;
+  const DURATION = 1200; // ms
+  const start = performance.now();
+
+  function tick(now) {
+    const elapsed = now - start;
+    pct = Math.min(100, (elapsed / DURATION) * 100);
+    bar.style.width = pct + '%';
+    if (pct < 100) {
+      requestAnimationFrame(tick);
+    } else {
+      // Small pause then fade out
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        // Remove from DOM after transition
+        splash.addEventListener('transitionend', () => splash.remove(), { once: true });
+      }, 200);
+    }
+  }
+
+  requestAnimationFrame(tick);
+})();
+
+// ─── HAPTIC FEEDBACK (Vibration API) ─────────────────────────
+// Tiny vibration on mobile nav tap for tactile feel
+function haptic(pattern = [8]) {
+  if ('vibrate' in navigator) {
+    navigator.vibrate(pattern);
+  }
+}
+
+mobileNavLinks.forEach(link => {
+  link.addEventListener('pointerdown', () => haptic([6]));
+});
+
+// Also add haptic on arc-nav clicks on mobile
+arcNavLinks.forEach(link => {
+  link.addEventListener('pointerdown', () => haptic([4]));
+});
+
+// ─── PULL-TO-TOP GESTURE (Touch) ─────────────────────────────
+(function initPullToTop() {
+  const indicator = document.getElementById('pull-top');
+  if (!indicator) return;
+
+  let touchStartY = 0;
+  let isPulling = false;
+  const THRESHOLD = 80; // px of pull needed to trigger
+
+  document.addEventListener('touchstart', e => {
+    // Only trigger when already at the top of the page
+    if (window.scrollY <= 0) {
+      touchStartY = e.touches[0].clientY;
+    } else {
+      touchStartY = 0;
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchmove', e => {
+    if (!touchStartY) return;
+    const pullDist = e.touches[0].clientY - touchStartY;
+    if (pullDist > 20 && !isPulling) {
+      isPulling = true;
+      indicator.classList.add('visible');
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', () => {
+    if (!touchStartY) return;
+    if (isPulling) {
+      indicator.classList.remove('visible');
+      isPulling = false;
+      // Trigger scroll to top with haptic
+      haptic([10, 30, 10]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    touchStartY = 0;
+  }, { passive: true });
+})();
+

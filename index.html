@@ -5,15 +5,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
-    content="Портфолио Даниял — будущего разработчика из Казахстана. Обо мне, мой путь в IT, проекты и GitHub.">
+    content="Портфолио Даниял — будущего веб-разработчика и специалиста по кибербезопасности из Казахстана.">
   <title>Даниял | Портфолио Middle Web</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+  <!-- OG / Social Sharing -->
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="Даниял | Портфолио Middle Web">
+  <meta property="og:description" content="Будущий специалист по кибербезопасности. Учусь в 10 классе, строю сайты с нуля.">
+  <meta property="og:url"         content="https://detrayer15-ship-it.github.io/middle-web-portfolio/">
+  <meta property="og:image"       content="https://detrayer15-ship-it.github.io/middle-web-portfolio/assets/images/og-preview.png">
+  <meta name="twitter:card"       content="summary_large_image">
+  <meta name="twitter:title"      content="Даниял | Портфолио Middle Web">
+  <meta name="twitter:description" content="Будущий специалист по кибербезопасности из Казахстана.">
+  <meta name="theme-color"        content="#64ffda">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap"
     rel="stylesheet">
 
   <!-- Font Awesome -->
@@ -24,6 +35,27 @@
 </head>
 
 <body>
+
+  <!-- ═══ SPLASH SCREEN ═══ -->
+  <div class="splash" id="splash" aria-hidden="true">
+    <div class="splash__inner">
+      <div class="splash__logo">
+        <span class="splash__bracket">&lt;</span>
+        <span class="splash__name">Daniyal</span>
+        <span class="splash__bracket">/&gt;</span>
+      </div>
+      <div class="splash__bar-wrap">
+        <div class="splash__bar" id="splash-bar"></div>
+      </div>
+      <p class="splash__hint">Загрузка портфолио...</p>
+    </div>
+  </div>
+
+  <!-- Pull-to-top indicator (mobile) -->
+  <div class="pull-top" id="pull-top" aria-hidden="true">
+    <i class="fa-solid fa-angles-up"></i>
+    <span>Потяни вверх</span>
+  </div>
 
   <!-- Particles Background -->
   <canvas id="particles-canvas"></canvas>
@@ -36,118 +68,108 @@
         <span class="logo-name">Daniyal</span>
         <span class="logo-bracket">/&gt;</span>
       </a>
-      <nav aria-label="Основная навигация">
-        <ul class="nav-list" id="nav-list">
-          <li><a href="#about" class="nav-link">О себе</a></li>
-          <li><a href="#goal" class="nav-link">Цель</a></li>
-          <li><a href="#story" class="nav-link">История</a></li>
-          <li><a href="#mentor" class="nav-link">Ментор</a></li>
-          <li><a href="#progress" class="nav-link">Прогресс</a></li>
-          <li><a href="#hobbies" class="nav-link">Хобби</a></li>
-          <li><a href="#projects" class="nav-link">Работы</a></li>
-          <li><a href="#github" class="nav-link">GitHub</a></li>
-        </ul>
-      </nav>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему" title="Переключить тему">
-        <i class="fa-solid fa-sun" id="theme-icon"></i>
-      </button>
-      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav-list">
-        <span></span><span></span><span></span>
-      </button>
+
     </div>
   </header>
 
-  <!-- Arc Semicircle Navigation (JARVIS HUD) -->
+  <!-- Arc Semicircle Navigation (Desktop) -->
   <aside class="arc-nav" id="arc-nav" aria-label="Боковая навигация портфолио">
-    <div class="arc-nav__container">
-      <!-- SVG для линий и визуальных эффектов -->
-      <svg class="arc-nav__svg" viewBox="0 0 280 280" aria-hidden="true">
-        <defs>
-          <linearGradient id="arc-glow-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="var(--primary)" stop-opacity="1" />
-            <stop offset="50%" stop-color="var(--secondary)" stop-opacity="0.7" />
-            <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.4" />
-          </linearGradient>
-          <filter id="arc-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-        <!-- Основная дуга полукруга -->
-        <g class="arc-nav__arcs" filter="url(#arc-glow)">
-          <path class="arc-nav__arc arc-nav__arc--main" d="M 140 10 A 130 130 0 0 1 140 270" />
-        </g>
-        <!-- Линии от центра к элементам -->
-        <g class="arc-nav__radials" id="arc-nav-radials"></g>
-      </svg>
+    <!-- SVG дуга — полукруг на левой половине -->
+    <!-- viewBox 300x300; circle center at (150,150) radius 130 -->
+    <!-- Arc goes from top (150,20) counterclockwise to bottom (150,280) on left half -->
+    <svg class="arc-nav__svg" viewBox="0 0 300 300" aria-hidden="true">
+      <defs>
+        <linearGradient id="arc-line-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stop-color="var(--primary)"   stop-opacity="0.05"/>
+          <stop offset="30%"  stop-color="var(--primary)"   stop-opacity="0.45"/>
+          <stop offset="70%"  stop-color="var(--secondary)" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="var(--secondary)" stop-opacity="0.05"/>
+        </linearGradient>
+      </defs>
+      <!-- Left-facing semicircle: from top-center (150,20) → sweep left → to bottom-center (150,280) -->
+      <path class="arc-nav__arc" d="M 150 20 A 130 130 0 0 0 150 280" />
+    </svg>
 
-      <!-- Центральная кнопка шестеренка -->
-      <button class="arc-nav__core" id="arc-nav-core" type="button" aria-label="Система навигации JARVIS">
-        <span class="arc-nav__core-pulse" aria-hidden="true"></span>
-        <i class="fa-solid fa-gear" aria-hidden="true"></i>
-      </button>
-
-      <!-- Меню элементов -->
-      <nav class="arc-nav__menu" aria-label="Разделы сайта">
-        <a class="arc-nav__link" href="#about" style="--angle:270deg; --route-color:#ff9f1c;">
-          <span class="arc-nav__button">
-            <i class="fa-solid fa-house" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">О себе</span>
-        </a>
-        <a class="arc-nav__link" href="#goal" style="--angle:237deg; --route-color:#ff5d3d;">
-          <span class="arc-nav__button">
-            <i class="fa-solid fa-bullseye" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">Цель</span>
-        </a>
-        <a class="arc-nav__link" href="#story" style="--angle:204deg; --route-color:#35c759;">
-          <span class="arc-nav__button">
-            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">История</span>
-        </a>
-        <a class="arc-nav__link" href="#mentor" style="--angle:171deg; --route-color:#00a8e8;">
-          <span class="arc-nav__button">
-            <i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">Ментор</span>
-        </a>
-        <a class="arc-nav__link" href="#progress" style="--angle:138deg; --route-color:#6c5ce7;">
-          <span class="arc-nav__button">
-            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">Прогресс</span>
-        </a>
-        <a class="arc-nav__link" href="#hobbies" style="--angle:105deg; --route-color:#d630a8;">
-          <span class="arc-nav__button">
-            <i class="fa-solid fa-gamepad" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">Хобби</span>
-        </a>
-        <a class="arc-nav__link" href="#projects" style="--angle:72deg; --route-color:#8e44ff;">
-          <span class="arc-nav__button">
-            <i class="fa-solid fa-briefcase" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">Работы</span>
-        </a>
-        <a class="arc-nav__link" href="#github" style="--angle:39deg; --route-color:#64ffda;">
-          <span class="arc-nav__button">
-            <i class="fa-brands fa-github" aria-hidden="true"></i>
-          </span>
-          <span class="arc-nav__label">GitHub</span>
-        </a>
-      </nav>
+    <!-- Индикатор активного раздела -->
+    <div class="arc-nav__indicator" id="arc-nav-indicator" aria-live="polite">
+      <span class="arc-nav__indicator-dot"></span>
+      <span class="arc-nav__indicator-text" id="arc-indicator-text">О себе</span>
     </div>
+
+    <!-- Кнопки разделов -->
+    <nav class="arc-nav__menu" aria-label="Разделы сайта">
+      <a class="arc-nav__link" href="#about"    style="--angle:255deg; --route-color:#ff9f1c;" data-label="О себе">
+        <span class="arc-nav__button"><i class="fa-solid fa-house"           aria-hidden="true"></i></span>
+        <span class="arc-nav__label">О себе</span>
+      </a>
+      <a class="arc-nav__link" href="#goal"     style="--angle:233deg; --route-color:#ff5d3d;" data-label="Цель">
+        <span class="arc-nav__button"><i class="fa-solid fa-bullseye"        aria-hidden="true"></i></span>
+        <span class="arc-nav__label">Цель</span>
+      </a>
+      <a class="arc-nav__link" href="#story"    style="--angle:212deg; --route-color:#35c759;" data-label="История">
+        <span class="arc-nav__button"><i class="fa-solid fa-book-open"       aria-hidden="true"></i></span>
+        <span class="arc-nav__label">История</span>
+      </a>
+      <a class="arc-nav__link" href="#mentor"   style="--angle:191deg; --route-color:#00a8e8;" data-label="Ментор">
+        <span class="arc-nav__button"><i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i></span>
+        <span class="arc-nav__label">Ментор</span>
+      </a>
+      <a class="arc-nav__link" href="#progress" style="--angle:169deg; --route-color:#6c5ce7;" data-label="Прогресс">
+        <span class="arc-nav__button"><i class="fa-solid fa-chart-line"      aria-hidden="true"></i></span>
+        <span class="arc-nav__label">Прогресс</span>
+      </a>
+      <a class="arc-nav__link" href="#hobbies"  style="--angle:148deg; --route-color:#d630a8;" data-label="Хобби">
+        <span class="arc-nav__button"><i class="fa-solid fa-gamepad"         aria-hidden="true"></i></span>
+        <span class="arc-nav__label">Хобби</span>
+      </a>
+      <a class="arc-nav__link" href="#projects" style="--angle:126deg; --route-color:#8e44ff;" data-label="Работы">
+        <span class="arc-nav__button"><i class="fa-solid fa-briefcase"       aria-hidden="true"></i></span>
+        <span class="arc-nav__label">Работы</span>
+      </a>
+      <a class="arc-nav__link" href="#github"   style="--angle:105deg; --route-color:#64ffda;" data-label="GitHub">
+        <span class="arc-nav__button"><i class="fa-brands fa-github"         aria-hidden="true"></i></span>
+        <span class="arc-nav__label">GitHub</span>
+      </a>
+    </nav>
   </aside>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация">
+    <a class="mobile-nav__item" href="#about"    style="--route-color:#ff9f1c;" data-label="О себе">
+      <i class="fa-solid fa-house"></i><span>О себе</span>
+    </a>
+    <a class="mobile-nav__item" href="#goal"     style="--route-color:#ff5d3d;" data-label="Цель">
+      <i class="fa-solid fa-bullseye"></i><span>Цель</span>
+    </a>
+    <a class="mobile-nav__item" href="#story"    style="--route-color:#35c759;" data-label="История">
+      <i class="fa-solid fa-book-open"></i><span>История</span>
+    </a>
+    <a class="mobile-nav__item" href="#mentor"   style="--route-color:#00a8e8;" data-label="Ментор">
+      <i class="fa-solid fa-chalkboard-user"></i><span>Ментор</span>
+    </a>
+    <a class="mobile-nav__item" href="#progress" style="--route-color:#6c5ce7;" data-label="Прогресс">
+      <i class="fa-solid fa-chart-line"></i><span>Прогресс</span>
+    </a>
+    <a class="mobile-nav__item" href="#hobbies"  style="--route-color:#d630a8;" data-label="Хобби">
+      <i class="fa-solid fa-gamepad"></i><span>Хобби</span>
+    </a>
+    <a class="mobile-nav__item" href="#projects" style="--route-color:#8e44ff;" data-label="Работы">
+      <i class="fa-solid fa-briefcase"></i><span>Работы</span>
+    </a>
+    <a class="mobile-nav__item" href="#github"   style="--route-color:#64ffda;" data-label="GitHub">
+      <i class="fa-brands fa-github"></i><span>GitHub</span>
+    </a>
+  </nav>
+
 
   <main>
 
     <!-- 1. О себе — Hero Section -->
     <section class="section hero" id="about">
+      <!-- Hero Glow Orbs -->
+      <div class="hero-glow hero-glow--1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow--2" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow--3" aria-hidden="true"></div>
       <div class="container hero-container">
         <div class="hero-badge reveal">
           <i class="fa-solid fa-star"></i> CapEducation · Middle Web Track
@@ -155,17 +177,17 @@
         <div class="profile-photo reveal">
           <div class="photo-ring"></div>
           <img
-            src="assets/images/profile.svg"
+            src="assets/images/profile.png"
             alt="Фото Данияла" width="200" height="200">
-          <div class="photo-status"><i class="fa-solid fa-circle"></i> Открыт для проектов</div>
+
         </div>
         <h1 class="hero-title reveal">Привет, я <span class="gradient-text">Даниял</span> 👋</h1>
         <h2 class="hero-subtitle reveal">Будущий специалист по кибербезопасности</h2>
         <p class="hero-desc reveal">Учусь в <strong>10 классе</strong>, увлекаюсь программированием, математикой и
           современными технологиями. Создаю сайты с нуля и верю, что код меняет мир.</p>
 
-        <!-- Факты из data.json через Fetch -->
-        <div class="facts-grid reveal" id="facts-container">
+        <!-- Факты — табы -->
+        <div class="facts-tabs reveal" id="facts-container" aria-label="Факты обо мне">
           <div class="facts-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка...</div>
         </div>
 
@@ -191,7 +213,6 @@
         <div class="section-header reveal">
           <span class="section-tag"><i class="fa-solid fa-bullseye"></i> Цель</span>
           <h2 class="section-title">Моя <span class="gradient-text">цель</span></h2>
-          <p class="section-subtitle">Зачем я в программировании и к чему иду</p>
         </div>
         <div class="goal-grid reveal">
           <div class="goal-main glass-card">
@@ -272,7 +293,6 @@
         <div class="section-header reveal">
           <span class="section-tag"><i class="fa-solid fa-route"></i> Путь в IT</span>
           <h2 class="section-title">Как я пришёл <span class="gradient-text">в IT</span></h2>
-          <p class="section-subtitle">Моя история: что привело меня в эту сферу</p>
         </div>
         <div class="timeline reveal" id="timeline-container">
           <div class="timeline-item">
@@ -295,12 +315,27 @@
             </div>
           </div>
           <div class="timeline-item">
-            <div class="timeline-dot"><i class="fa-solid fa-code"></i></div>
+            <div class="timeline-dot timeline-dot--highlight"><i class="fa-brands fa-python"></i></div>
             <div class="timeline-content glass-card">
-              <span class="timeline-year">Сейчас</span>
-              <h3>Курс CapEducation</h3>
-              <p>Прошёл весь трек Middle Web: Tilda → Figma → HTML → CSS → JavaScript. Строю настоящие сайты с нуля и не
-                собираюсь останавливаться.</p>
+              <span class="timeline-year">12 лет</span>
+              <h3>Первый кодинг на Python</h3>
+              <p>Открыл для себя настоящее программирование — написал первые скрипты на Python. Понял, что код — это не просто игрушка, а инструмент, которым можно решать реальные задачи.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot timeline-dot--highlight"><i class="fa-solid fa-robot"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-year">14 лет</span>
+              <h3>Знакомство с ИИ</h3>
+              <p>Начал изучать искусственный интеллект: разбирался с нейросетями, экспериментировал с Python-библиотеками и понял, как машины «учатся» — это захватило меня всерьёз.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot timeline-dot--now"><i class="fa-solid fa-code"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-year">15 лет · Сейчас</span>
+              <h3>CapEducation — HTML, CSS, JS & Python</h3>
+              <p>Прохожу трек Middle Web: Tilda → Figma → HTML → CSS → JavaScript, параллельно углубляю Python и алгоритмы. Строю настоящие сайты с нуля и не собираюсь останавливаться.</p>
             </div>
           </div>
         </div>
@@ -315,12 +350,11 @@
         <div class="section-header reveal">
           <span class="section-tag"><i class="fa-solid fa-user-graduate"></i> Ментор</span>
           <h2 class="section-title">Мой <span class="gradient-text">ментор</span></h2>
-          <p class="section-subtitle">Кто помогает и вдохновляет меня</p>
         </div>
         <div class="mentor-card glass-card reveal">
           <div class="mentor-avatar">
             <img
-              src="https://ui-avatars.com/api/?name=AB&size=200&background=1a2942&color=64ffda&font-size=0.4&bold=true&rounded=true"
+              src="assets/images/mentor.png"
               alt="Askar Bakeyev" width="120" height="120">
           </div>
           <div class="mentor-info">
@@ -349,7 +383,6 @@
         <div class="section-header reveal">
           <span class="section-tag"><i class="fa-solid fa-chart-line"></i> Прогресс</span>
           <h2 class="section-title">Точка А <span class="gradient-text">→</span> Точка Б</h2>
-          <p class="section-subtitle">Мой прогресс — данные загружаются через Fetch API</p>
         </div>
 
         <div class="progress-wrapper" id="progress-wrapper">
@@ -398,7 +431,6 @@
         <div class="section-header reveal">
           <span class="section-tag"><i class="fa-solid fa-heart"></i> Хобби</span>
           <h2 class="section-title">Хобби и <span class="gradient-text">интересы</span></h2>
-          <p class="section-subtitle">Чем я увлекаюсь вне учёбы</p>
         </div>
         <div class="hobbies-container reveal" id="hobbies-container">
           <div class="hobby-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка...</div>
@@ -414,7 +446,6 @@
         <div class="section-header reveal">
           <span class="section-tag"><i class="fa-solid fa-star"></i> Работы</span>
           <h2 class="section-title">Мои лучшие <span class="gradient-text">работы</span></h2>
-          <p class="section-subtitle">Лучшие учебные работы, которые я выполнил на практических уроках</p>
         </div>
         <div class="projects-grid" id="projects-grid">
           <div class="projects-loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Загрузка проектов...</div>
@@ -430,27 +461,26 @@
         <div class="section-header reveal">
           <span class="section-tag"><i class="fa-brands fa-github"></i> GitHub</span>
           <h2 class="section-title">Мой <span class="gradient-text">GitHub</span></h2>
-          <p class="section-subtitle">Весь код проекта открыт и залит в репозиторий</p>
         </div>
+
+        <!-- Repo Card -->
         <div class="github-card glass-card reveal">
           <div class="github-icon-wrap">
             <i class="fa-brands fa-github github-big-icon"></i>
           </div>
           <div class="github-info">
-            <h3>detrayer15-ship-it</h3>
-            <p>В репозитории находится мой проект <strong>EliteHeat</strong>. Он показывает мой интерес к разработке,
-              технологиям и созданию собственных цифровых продуктов.
-            </p>
-            <div class="github-stats">
-              <div class="github-stat"><i class="fa-solid fa-code-branch"></i> index.html</div>
-              <div class="github-stat"><i class="fa-solid fa-palette"></i> style.css</div>
-              <div class="github-stat"><i class="fa-brands fa-js"></i> script.js</div>
-              <div class="github-stat"><i class="fa-solid fa-database"></i> data.json</div>
+            <h3>detrayer15-ship-it / middle-web-portfolio</h3>
+            <p>Мой учебный проект в рамках CapEducation Middle Web Track. Сделан полностью вручную на HTML, CSS и JavaScript с Fetch API.</p>
+            <div class="github-actions">
+              <a href="https://github.com/detrayer15-ship-it" class="btn btn-primary" id="github-profile-link" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa-brands fa-github"></i> Профиль GitHub
+              </a>
+              <a href="https://github.com/detrayer15-ship-it/middle-web-portfolio" class="btn btn-outline" id="github-repo-link" target="_blank"
+                rel="noopener noreferrer">
+                <i class="fa-solid fa-code"></i> Репозиторий проекта
+              </a>
             </div>
-            <a href="https://github.com/detrayer15-ship-it/EliteHeat" class="btn btn-primary" id="github-link" target="_blank"
-              rel="noopener noreferrer">
-              <i class="fa-brands fa-github"></i> Открыть репозиторий
-            </a>
           </div>
         </div>
       </div>
@@ -465,6 +495,11 @@
       <p class="footer-sub">Сайт сделан вручную на HTML / CSS / JavaScript · Данные загружены через Fetch API</p>
     </div>
   </footer>
+
+  <!-- Floating Theme Toggle Button -->
+  <button class="theme-toggle theme-toggle--floating" id="theme-toggle" aria-label="Переключить тему" title="Переключить тему">
+    <i class="fa-solid fa-sun" id="theme-icon"></i>
+  </button>
 
   <!-- Scroll to Top Button -->
   <button id="scroll-top-btn" aria-label="Наверх" title="Наверх">
